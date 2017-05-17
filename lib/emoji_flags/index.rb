@@ -1,23 +1,25 @@
+require "json"
+
 module EmojiFlags
   class Index
-    def initialize
-      emoji_list ||= begin
-        emoji_list = File.read(data_filename)
-        JSON.parse(emoji_json)
+    DATASOURCE = '/app/config/index.json'.freeze
+
+    class << self
+      def all
+        emoji_list
       end
 
-      @emoji_by_country_code = {}
-
-      emoji_list.each do |emoji|
-        code = emoji['code']
-        @emoji_by_country_code[code] = emoji
+      def by_code(code)
+        emoji_list.find { |emoji| emoji[:code] == code }
       end
-    end
 
-    private
+      private
 
-    def data_filename
-      File.absoulte_path(File.dirname(__FILE__) + '../../config/index.json')
+      def emoji_list
+        return @emoji_list if @emoji_list
+        @emoji_list = JSON.parse(File.read(DATASOURCE), symbolize_names: true)
+        @emoji_list
+      end
     end
   end
 end
