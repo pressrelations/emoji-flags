@@ -7,6 +7,8 @@ ADD ./Gemfile Gemfile
 ADD ./Gemfile.lock Gemfile.lock
 ADD ./*.gemspec dummy.gemspec
 RUN bash -l -c "bundle install -j16"
-ADD ./lib lib
+ADD . /var/www
 RUN rm -rf /tmp/*
-WORKDIR /app
+WORKDIR /var/www
+
+RUN bash -l -c "RUBY_ENV=test bundle exec rspec -b"
