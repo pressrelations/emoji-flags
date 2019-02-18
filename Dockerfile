@@ -1,4 +1,4 @@
-FROM dory.pressrelations.de:5000/base-ruby-gem:0.0.17
+FROM 589401011586.dkr.ecr.eu-central-1.amazonaws.com/base-ruby-gem:0.0.17
 
 RUN apt-get update && apt-get clean
 
